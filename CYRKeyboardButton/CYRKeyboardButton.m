@@ -172,8 +172,7 @@
 
 - (void)setupInputOptionsConfiguration
 {
-    [self removeGestureRecognizer:self.optionsViewRecognizer];
-    [self removeGestureRecognizer:self.panGestureRecognizer];
+    [self tearDownInputOptionsConfiguration];
     
     if (self.inputOptions.count > 0) {
         UILongPressGestureRecognizer *longPressGestureRecognizer =
@@ -194,7 +193,8 @@
 
 - (void)tearDownInputOptionsConfiguration
 {
-    
+    [self removeGestureRecognizer:self.optionsViewRecognizer];
+    [self removeGestureRecognizer:self.panGestureRecognizer];
 }
 
 #pragma mark - Touch Actions
