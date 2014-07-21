@@ -398,7 +398,7 @@
             CGFloat offsetX = 0, offsetY = 0;
             CGRect pathBoundingBox = path.bounds;
             
-            offsetX = CGRectGetMidX(keyRect) - CGRectGetWidth(keyRect);
+            offsetX = CGRectGetMaxX(keyRect) - CGRectGetWidth(keyRect) - insets.left;
             offsetY = CGRectGetMaxY(keyRect) - CGRectGetHeight(pathBoundingBox) + 10;
             
             [path applyTransform:CGAffineTransformMakeTranslation(offsetX, offsetY)];
