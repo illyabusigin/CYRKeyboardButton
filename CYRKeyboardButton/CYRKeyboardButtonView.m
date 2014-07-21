@@ -107,7 +107,6 @@
     // Generate the overlay
     UIBezierPath *bezierPath = [self inputViewPath];
     NSString *inputString = self.button.input;
-    BOOL selected = NO;
     
     // Position the overlay
     CGRect keyRect = [self convertRect:self.button.frame fromView:self.button.superview];
@@ -152,7 +151,7 @@
     
     // Text drawing
     {
-        UIColor *stringColor = (selected ? [UIColor whiteColor] : self.button.keyTextColor);
+        UIColor *stringColor = self.button.keyTextColor;
         
         CGRect stringRect = bezierPath.bounds;
         
@@ -171,7 +170,6 @@
 {
     // Generate the overlay
     UIBezierPath *bezierPath = [self expandedInputViewPath];
-    BOOL selected = NO;
     
     // Position the overlay
     CGRect keyRect = [self convertRect:self.button.frame fromView:self.button.superview];
