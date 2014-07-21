@@ -405,6 +405,37 @@
         }
             break;
             
+        case CYRKeyboardButtonPositionLeft:
+        {
+            [path rightArc:majorRadius turn:90]; // #1
+            [path forward:upperWidth - 2 * majorRadius]; // #2 top
+            [path rightArc:majorRadius turn:90]; // #3
+            [path forward:CGRectGetHeight(keyRect) - 2 * majorRadius + insets.top + insets.bottom]; // #4 right big
+            
+            [path rightArc:majorRadius turn:48];
+            [path forward:8.5f];
+            [path leftArc:majorRadius turn:48];
+            
+            [path forward:CGRectGetHeight(keyRect) - minorRadius];
+            [path rightArc:minorRadius turn:90];
+            [path forward:lowerWidth - 2 * minorRadius]; //  lowerWidth - 2 * minorRadius + 0.5f
+            [path rightArc:minorRadius turn:90];
+            [path forward:CGRectGetHeight(keyRect) - 2 * minorRadius];
+            
+            [path leftArc:majorRadius turn:90]; // #5
+            [path forward:path.currentPoint.x - majorRadius];
+            [path rightArc:majorRadius turn:90]; // #6
+            
+            CGFloat offsetX = 0, offsetY = 0;
+            CGRect pathBoundingBox = path.bounds;
+            
+            offsetX = CGRectGetMaxX(keyRect) - CGRectGetWidth(path.bounds) + insets.left;
+            offsetY = CGRectGetMaxY(keyRect) - CGRectGetHeight(pathBoundingBox) + 10;
+            
+            [path applyTransform:CGAffineTransformMakeTranslation(offsetX, offsetY)];
+        }
+            break;
+            
         default:
             break;
     }
