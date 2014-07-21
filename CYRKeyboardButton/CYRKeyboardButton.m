@@ -16,7 +16,6 @@
 @property (nonatomic, strong) CYRKeyboardButtonView *expandedButtonView;
 
 @property (nonatomic, assign) CYRKeyboardButtonPosition position;
-@property (nonatomic, assign) BOOL touching;
 
 // Input options state
 @property (nonatomic, strong) UILongPressGestureRecognizer *optionsViewRecognizer;
@@ -202,8 +201,6 @@
 
 - (void)_handleTouchDown
 {
-    _touching = YES;
-    
     [[UIDevice currentDevice] playInputClick];
     
     [self showInputView];
@@ -239,16 +236,12 @@
 {
     [super touchesEnded:touches withEvent:event];
     
-    _touching = NO;
-    
     [self hideInputView];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [super touchesCancelled:touches withEvent:event];
-    
-    _touching = NO;
     
     [self hideInputView];
 }
