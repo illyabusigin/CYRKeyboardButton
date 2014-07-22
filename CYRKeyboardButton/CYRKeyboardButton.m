@@ -23,6 +23,7 @@
 
 // Internal style
 @property (nonatomic, strong) UIColor *highlightedKeyColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic, assign) CGFloat keyCornerRadius UI_APPEARANCE_SELECTOR;
 
 @end
 
@@ -74,6 +75,8 @@
         // State handling
         [self addTarget:self action:@selector(_handleTouchDown) forControlEvents:UIControlEventTouchDown];
         [self addTarget:self action:@selector(_handleTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self updateDisplayStyle];
     }
     
     return self;
@@ -176,6 +179,19 @@
 
 - (void)updateDisplayStyle
 {
+    switch (_style) {
+        case CYRKeyboardButtonStylePhone:
+            _keyCornerRadius = 4.f;
+            break;
+            
+        case CYRKeyboardButtonStyleTablet:
+            _keyCornerRadius = 6.f;
+            break;
+            
+        default:
+            break;
+    }
+    
     [self setNeedsDisplay];
 }
 
@@ -277,31 +293,24 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    //// General Declarations
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    //// Color Declarations
     UIColor *color = self.keyColor;
     
     if (_style == CYRKeyboardButtonStyleTablet && self.state == UIControlStateHighlighted) {
         color = self.highlightedKeyColor;
     }
     
-    //// Shadow Declarations
     UIColor *shadow = self.keyShadowColor;
     CGSize shadowOffset = CGSizeMake(0.1, 1.1);
     CGFloat shadowBlurRadius = 0;
     
-    //// Rounded Rectangle Drawing
     UIBezierPath *roundedRectanglePath =
-    [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height - 1) cornerRadius:6];
+    [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height - 1) cornerRadius:self.keyCornerRadius];
     CGContextSaveGState(context);
     CGContextSetShadowWithColor(context, shadowOffset, shadowBlurRadius, shadow.CGColor);
     [color setFill];
     [roundedRectanglePath fill];
     CGContextRestoreGState(context);
-    
-   
 }
 
 @end

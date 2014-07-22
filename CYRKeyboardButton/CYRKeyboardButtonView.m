@@ -176,6 +176,7 @@
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     
+    
     // Overlay path & shadow
     {
         //// Shadow Declarations
@@ -192,8 +193,7 @@
     }
     
     // Draw the key shadow sliver
-    {
-        //// Color Declarations
+    if (self.button.style == CYRKeyboardButtonStylePhone) {
         UIColor *color = self.button.keyColor;
         
         //// Shadow Declarations
@@ -374,63 +374,109 @@
     path.lineWidth = 0;
     path.lineCapStyle = kCGLineCapRound;
     
+    CGFloat offsetX = 0, offsetY = 0;
+    
     switch (_expandedPosition) {
         case CYRKeyboardButtonPositionRight:
         {
-            [path rightArc:majorRadius turn:90]; // #1
-            [path forward:upperWidth - 2 * majorRadius]; // #2 top
-            [path rightArc:majorRadius turn:90]; // #3
-            [path forward:CGRectGetHeight(keyRect) - 2 * majorRadius + insets.top + insets.bottom]; // #4 right big
-            [path rightArc:majorRadius turn:90]; // #5
-            [path forward:path.currentPoint.x - (CGRectGetWidth(keyRect) + 2 * majorRadius + 3)];
-            [path leftArc:majorRadius turn:90]; // #6
-            [path forward:CGRectGetHeight(keyRect) - minorRadius];
-            [path rightArc:minorRadius turn:90];
-            [path forward:lowerWidth - 2 * minorRadius]; //  lowerWidth - 2 * minorRadius + 0.5f
-            [path rightArc:minorRadius turn:90];
-            [path forward:CGRectGetHeight(keyRect) - 2 * minorRadius];
-            [path leftArc:majorRadius turn:48];
-            [path forward:8.5f];
-            [path rightArc:majorRadius turn:48];
+            switch (self.button.style) {
+                case CYRKeyboardButtonStylePhone:
+                {
+                    [path rightArc:majorRadius turn:90]; // #1
+                    [path forward:upperWidth - 2 * majorRadius]; // #2 top
+                    [path rightArc:majorRadius turn:90]; // #3
+                    [path forward:CGRectGetHeight(keyRect) - 2 * majorRadius + insets.top + insets.bottom]; // #4 right big
+                    [path rightArc:majorRadius turn:90]; // #5
+                    [path forward:path.currentPoint.x - (CGRectGetWidth(keyRect) + 2 * majorRadius + 3)];
+                    [path leftArc:majorRadius turn:90]; // #6
+                    [path forward:CGRectGetHeight(keyRect) - minorRadius];
+                    [path rightArc:minorRadius turn:90];
+                    [path forward:lowerWidth - 2 * minorRadius]; //  lowerWidth - 2 * minorRadius + 0.5f
+                    [path rightArc:minorRadius turn:90];
+                    [path forward:CGRectGetHeight(keyRect) - 2 * minorRadius];
+                    [path leftArc:majorRadius turn:48];
+                    [path forward:8.5f];
+                    [path rightArc:majorRadius turn:48];
+                    
+                    offsetX = CGRectGetMaxX(keyRect) - CGRectGetWidth(keyRect) - insets.left;
+                    offsetY = CGRectGetMaxY(keyRect) - CGRectGetHeight(path.bounds) + 10;
+                    
+                    [path applyTransform:CGAffineTransformMakeTranslation(offsetX, offsetY)];
+                }
+                    break;
+                    
+                case CYRKeyboardButtonStyleTablet:
+                {
+                    CGRect firstRect = [self.inputOptionRects[0] CGRectValue];
+                    
+                    path = (id)[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, CGRectGetWidth(firstRect) * self.button.inputOptions.count + 12, CGRectGetHeight(firstRect) + 12)
+                                                          cornerRadius:6];
+                    
+                    offsetX = CGRectGetMinX(keyRect);
+                    offsetY = CGRectGetMinY(firstRect) - 6;
+                    
+                    [path applyTransform:CGAffineTransformMakeTranslation(offsetX, offsetY)];
+                    
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
             
-            CGFloat offsetX = 0, offsetY = 0;
-            CGRect pathBoundingBox = path.bounds;
             
-            offsetX = CGRectGetMaxX(keyRect) - CGRectGetWidth(keyRect) - insets.left;
-            offsetY = CGRectGetMaxY(keyRect) - CGRectGetHeight(pathBoundingBox) + 10;
-            
-            [path applyTransform:CGAffineTransformMakeTranslation(offsetX, offsetY)];
         }
             break;
             
         case CYRKeyboardButtonPositionLeft:
         {
-            [path rightArc:majorRadius turn:90]; // #1
-            [path forward:upperWidth - 2 * majorRadius]; // #2 top
-            [path rightArc:majorRadius turn:90]; // #3
-            [path forward:CGRectGetHeight(keyRect) - 2 * majorRadius + insets.top + insets.bottom]; // #4 right big
-            
-            [path rightArc:majorRadius turn:48];
-            [path forward:8.5f];
-            [path leftArc:majorRadius turn:48];
-            
-            [path forward:CGRectGetHeight(keyRect) - minorRadius];
-            [path rightArc:minorRadius turn:90];
-            [path forward:lowerWidth - 2 * minorRadius]; //  lowerWidth - 2 * minorRadius + 0.5f
-            [path rightArc:minorRadius turn:90];
-            [path forward:CGRectGetHeight(keyRect) - 2 * minorRadius];
-            
-            [path leftArc:majorRadius turn:90]; // #5
-            [path forward:path.currentPoint.x - majorRadius];
-            [path rightArc:majorRadius turn:90]; // #6
-            
-            CGFloat offsetX = 0, offsetY = 0;
-            CGRect pathBoundingBox = path.bounds;
-            
-            offsetX = CGRectGetMaxX(keyRect) - CGRectGetWidth(path.bounds) + insets.left;
-            offsetY = CGRectGetMaxY(keyRect) - CGRectGetHeight(pathBoundingBox) + 10;
-            
-            [path applyTransform:CGAffineTransformMakeTranslation(offsetX, offsetY)];
+            switch (self.button.style) {
+                case CYRKeyboardButtonStylePhone:
+                {
+                    [path rightArc:majorRadius turn:90]; // #1
+                    [path forward:upperWidth - 2 * majorRadius]; // #2 top
+                    [path rightArc:majorRadius turn:90]; // #3
+                    [path forward:CGRectGetHeight(keyRect) - 2 * majorRadius + insets.top + insets.bottom]; // #4 right big
+                    
+                    [path rightArc:majorRadius turn:48];
+                    [path forward:8.5f];
+                    [path leftArc:majorRadius turn:48];
+                    
+                    [path forward:CGRectGetHeight(keyRect) - minorRadius];
+                    [path rightArc:minorRadius turn:90];
+                    [path forward:lowerWidth - 2 * minorRadius]; //  lowerWidth - 2 * minorRadius + 0.5f
+                    [path rightArc:minorRadius turn:90];
+                    [path forward:CGRectGetHeight(keyRect) - 2 * minorRadius];
+                    
+                    [path leftArc:majorRadius turn:90]; // #5
+                    [path forward:path.currentPoint.x - majorRadius];
+                    [path rightArc:majorRadius turn:90]; // #6
+                    
+                    offsetX = CGRectGetMaxX(keyRect) - CGRectGetWidth(path.bounds) + insets.left;
+                    offsetY = CGRectGetMaxY(keyRect) - CGRectGetHeight(path.bounds) + 10;
+                    
+                    [path applyTransform:CGAffineTransformMakeTranslation(offsetX, offsetY)];
+
+                }
+                    break;
+                    
+                case CYRKeyboardButtonStyleTablet:
+                {
+//                    CGRect firstRect = [self.inputOptionRects[0] CGRectValue];
+//                    
+//                    path = (id)[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, CGRectGetWidth(firstRect) * self.button.inputOptions.count + 12, CGRectGetHeight(firstRect) + 12)
+//                                                          cornerRadius:6];
+//                    
+//                    offsetX = CGRectGetMinX(keyRect);
+//                    offsetY = CGRectGetMinY(firstRect) - 6;
+//                    
+//                    [path applyTransform:CGAffineTransformMakeTranslation(offsetX, offsetY)];
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
         }
             break;
             
@@ -447,9 +493,27 @@
     
     __block NSMutableArray *inputOptionRects = [NSMutableArray arrayWithCapacity:self.button.inputOptions.count];
     
-    CGFloat offset = CGRectGetWidth(keyRect);
-    CGFloat spacing = 6;
-    __block CGRect optionRect = CGRectOffset(CGRectInset(keyRect, 0, 0.5), 0, -(CGRectGetHeight(keyRect) + 17));
+    CGFloat offset = 0;
+    CGFloat spacing = 0;
+    
+    __block CGRect optionRect = CGRectZero;
+    
+    switch (self.button.style) {
+        case CYRKeyboardButtonStylePhone:
+            offset = CGRectGetWidth(keyRect);
+            spacing = 6;
+            optionRect = CGRectOffset(CGRectInset(keyRect, 0, 0.5), 0, -(CGRectGetHeight(keyRect) + 17));
+            break;
+            
+        case CYRKeyboardButtonStyleTablet:
+            spacing = 0;
+            optionRect = CGRectOffset(CGRectInset(keyRect, 6, 6), 0, -(CGRectGetHeight(keyRect) + 17));
+            offset = CGRectGetWidth(optionRect);
+            break;
+            
+        default:
+            break;
+    }
     
     [self.button.inputOptions enumerateObjectsUsingBlock:^(NSString *option, NSUInteger idx, BOOL *stop) {
         
