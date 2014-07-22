@@ -15,7 +15,14 @@ typedef NS_ENUM(NSUInteger, CYRKeyboardButtonPosition) {
     CYRKeyboardButtonPositionCount
 };
 
+typedef NS_ENUM(NSUInteger, CYRKeyboardButtonStyle) {
+    CYRKeyboardButtonStylePhone,
+    CYRKeyboardButtonStyleTablet
+};
+
 @interface CYRKeyboardButton : UIControl
+
+@property (nonatomic, assign) CYRKeyboardButtonStyle style;
 
 // Styling
 @property (nonatomic, strong) UIFont *font UI_APPEARANCE_SELECTOR;

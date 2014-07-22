@@ -21,6 +21,9 @@
 @property (nonatomic, strong) UILongPressGestureRecognizer *optionsViewRecognizer;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
 
+// Internal style
+@property (nonatomic, strong) UIColor *highlightedKeyColor UI_APPEARANCE_SELECTOR;
+
 @end
 
 @implementation CYRKeyboardButton
@@ -36,6 +39,7 @@
         [keyboardButtonAppearance setKeyColor:[UIColor whiteColor]];
         [keyboardButtonAppearance setKeyTextColor:[UIColor blackColor]];
         [keyboardButtonAppearance setKeyShadowColor:[UIColor colorWithRed:136 / 255.f green:138 / 255.f blue:142 / 255.f alpha:1]];
+        [keyboardButtonAppearance setHighlightedKeyColor:[UIColor colorWithRed:213/255.f green:214/255.f blue:216/255.f alpha:1]];
     }
 }
 
@@ -46,8 +50,10 @@
     self = [super initWithFrame:frame];
     if (self) {
         
+        _style = CYRKeyboardButtonStyleTablet;
+        
+        
         // Styling
-        self.layer.cornerRadius = 4;
         self.backgroundColor = [UIColor clearColor];
         self.clipsToBounds = NO;
         self.layer.masksToBounds = NO;
@@ -111,15 +117,29 @@
     }
 }
 
+- (void)setStyle:(CYRKeyboardButtonStyle)style
+{
+    [self willChangeValueForKey:NSStringFromSelector(@selector(style))];
+    _style = style;
+    [self didChangeValueForKey:NSStringFromSelector(@selector(style))];
+    
+    [self updateDisplayStyle];
+}
+
 #pragma mark - Internal Actions
 
 - (void)showInputView
 {
-    [self hideInputView];
+    if (_style == CYRKeyboardButtonStylePhone) {
+        [self hideInputView];
+        
+        self.buttonView = [[CYRKeyboardButtonView alloc] initWithKeyboardButton:self type:CYRKeyboardButtonViewTypeInput];
+        
+        [self.window addSubview:self.buttonView];
+    } else {
+        [self setNeedsDisplay];
+    }
     
-    self.buttonView = [[CYRKeyboardButtonView alloc] initWithKeyboardButton:self type:CYRKeyboardButtonViewTypeInput];
-    
-    [self.window addSubview:self.buttonView];
 }
 
 - (void)showExpandedInputView:(UILongPressGestureRecognizer *)recognizer
@@ -144,12 +164,19 @@
 {
     [self.buttonView removeFromSuperview];
     self.buttonView = nil;
+    
+    [self setNeedsDisplay];
 }
 
 - (void)hideExpandedInputView
 {
     [self.expandedButtonView removeFromSuperview];
     self.expandedButtonView = nil;
+}
+
+- (void)updateDisplayStyle
+{
+    [self setNeedsDisplay];
 }
 
 #pragma mark - Internal Configuration
@@ -256,6 +283,10 @@
     //// Color Declarations
     UIColor *color = self.keyColor;
     
+    if (_style == CYRKeyboardButtonStyleTablet && self.state == UIControlStateHighlighted) {
+        color = self.highlightedKeyColor;
+    }
+    
     //// Shadow Declarations
     UIColor *shadow = self.keyShadowColor;
     CGSize shadowOffset = CGSizeMake(0.1, 1.1);
@@ -263,12 +294,14 @@
     
     //// Rounded Rectangle Drawing
     UIBezierPath *roundedRectanglePath =
-    [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height - 1) cornerRadius:4];
+    [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height - 1) cornerRadius:6];
     CGContextSaveGState(context);
     CGContextSetShadowWithColor(context, shadowOffset, shadowBlurRadius, shadow.CGColor);
     [color setFill];
     [roundedRectanglePath fill];
     CGContextRestoreGState(context);
+    
+   
 }
 
 @end
