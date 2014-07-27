@@ -407,7 +407,7 @@
                     [path rightArc:majorRadius turn:90]; // #1
                     [path forward:upperWidth - 2 * majorRadius]; // #2 top
                     [path rightArc:majorRadius turn:90]; // #3
-                    [path forward:CGRectGetHeight(keyRect) - 2 * majorRadius + insets.top + insets.bottom]; // #4 right big
+                    [path forward:CGRectGetHeight(keyRect) - 2 * majorRadius + insets.top + insets.bottom - 3]; // #4 right big
                     [path rightArc:majorRadius turn:90]; // #5
                     [path forward:path.currentPoint.x - (CGRectGetWidth(keyRect) + 2 * majorRadius + 3)];
                     [path leftArc:majorRadius turn:90]; // #6
@@ -458,7 +458,7 @@
                     [path rightArc:majorRadius turn:90]; // #1
                     [path forward:upperWidth - 2 * majorRadius]; // #2 top
                     [path rightArc:majorRadius turn:90]; // #3
-                    [path forward:CGRectGetHeight(keyRect) - 2 * majorRadius + insets.top + insets.bottom]; // #4 right big
+                    [path forward:CGRectGetHeight(keyRect) - 2 * majorRadius + insets.top + insets.bottom - 3]; // #4 right big
                     
                     [path rightArc:majorRadius turn:48];
                     [path forward:8.5f];
@@ -524,7 +524,7 @@
         case CYRKeyboardButtonStylePhone:
             offset = CGRectGetWidth(keyRect);
             spacing = 6;
-            optionRect = CGRectOffset(CGRectInset(keyRect, 0, 0.5), 0, -(CGRectGetHeight(keyRect) + 17));
+            optionRect = CGRectOffset(CGRectInset(keyRect, 0, 0.5), 0, -(CGRectGetHeight(keyRect) + 15));
             break;
             
         case CYRKeyboardButtonStyleTablet:
