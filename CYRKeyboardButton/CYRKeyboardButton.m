@@ -51,8 +51,18 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        _style = CYRKeyboardButtonStyleTablet;
-        
+        switch ([UIDevice currentDevice].userInterfaceIdiom) {
+            case UIUserInterfaceIdiomPhone:
+                _style = CYRKeyboardButtonStylePhone;
+                break;
+                
+            case UIUserInterfaceIdiomPad:
+                _style = CYRKeyboardButtonStyleTablet;
+                break;
+                
+            default:
+                break;
+        }
         
         // Styling
         self.backgroundColor = [UIColor clearColor];

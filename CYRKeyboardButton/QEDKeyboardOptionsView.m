@@ -44,7 +44,7 @@
 
 - (instancetype)initWithKeyboardButton:(QEDKeyboardButton *)button
 {
-    QEDKeyboardOptionsView *keyboardButtonsView = [[QEDKeyboardOptionsView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    QEDKeyboardOptionsView *keyboardButtonsView = [[QEDKeyboardOptionsView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
     keyboardButtonsView.button = button;
     keyboardButtonsView.tintColor = button.tintColor;
 

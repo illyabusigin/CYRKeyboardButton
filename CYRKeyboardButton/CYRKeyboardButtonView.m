@@ -26,7 +26,13 @@
 
 - (instancetype)initWithKeyboardButton:(CYRKeyboardButton *)button type:(CYRKeyboardButtonViewType)type;
 {
-    self = [super initWithFrame:[UIScreen mainScreen].bounds];
+    CGRect frame = [UIScreen mainScreen].bounds;
+    
+    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        frame = CGRectMake(0, 0, CGRectGetHeight(frame), CGRectGetWidth(frame));
+    }
+    
+    self = [super initWithFrame:frame];
     
     if (self) {
         _button = button;
@@ -176,12 +182,28 @@
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    
     // Overlay path & shadow
     {
+        CGFloat shadowAlpha = 0;
+        CGSize shadowOffset;
+        
+        switch ([UIDevice currentDevice].userInterfaceIdiom) {
+            case UIUserInterfaceIdiomPhone:
+                shadowAlpha = 0.5;
+                shadowOffset = CGSizeMake(0, 0.5);
+                break;
+                
+            case UIUserInterfaceIdiomPad:
+                shadowAlpha = 0.25;
+                shadowOffset = CGSizeZero;
+                break;
+                
+            default:
+                break;
+        }
+        
         //// Shadow Declarations
-        UIColor* shadow = [[UIColor blackColor] colorWithAlphaComponent: 0.5];
-        CGSize shadowOffset = CGSizeMake(0, 0.5);
+        UIColor* shadow = [[UIColor blackColor] colorWithAlphaComponent: shadowAlpha];
         CGFloat shadowBlurRadius = 2;
         
         //// Rounded Rectangle Drawing
@@ -462,15 +484,15 @@
                     
                 case CYRKeyboardButtonStyleTablet:
                 {
-//                    CGRect firstRect = [self.inputOptionRects[0] CGRectValue];
-//                    
-//                    path = (id)[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, CGRectGetWidth(firstRect) * self.button.inputOptions.count + 12, CGRectGetHeight(firstRect) + 12)
-//                                                          cornerRadius:6];
-//                    
-//                    offsetX = CGRectGetMinX(keyRect);
-//                    offsetY = CGRectGetMinY(firstRect) - 6;
-//                    
-//                    [path applyTransform:CGAffineTransformMakeTranslation(offsetX, offsetY)];
+                    CGRect firstRect = [self.inputOptionRects[0] CGRectValue];
+                    
+                    path = (id)[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, CGRectGetWidth(firstRect) * self.button.inputOptions.count + 12, CGRectGetHeight(firstRect) + 12)
+                                                          cornerRadius:6];
+                    
+                    offsetX = CGRectGetMaxX(keyRect) - CGRectGetWidth(path.bounds);
+                    offsetY = CGRectGetMinY(firstRect) - 6;
+                    
+                    [path applyTransform:CGAffineTransformMakeTranslation(offsetX, offsetY)];
                 }
                     break;
                     
@@ -507,7 +529,7 @@
             
         case CYRKeyboardButtonStyleTablet:
             spacing = 0;
-            optionRect = CGRectOffset(CGRectInset(keyRect, 6, 6), 0, -(CGRectGetHeight(keyRect) + 17));
+            optionRect = CGRectOffset(CGRectInset(keyRect, 6, 6), 0, -(CGRectGetHeight(keyRect) + 3));
             offset = CGRectGetWidth(optionRect);
             break;
             
