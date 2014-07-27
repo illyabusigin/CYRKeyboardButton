@@ -386,7 +386,7 @@
     
     UIEdgeInsets insets = UIEdgeInsetsMake(7, 13, 7, 13);
     CGFloat margin = 7.f;
-    CGFloat upperWidth = insets.left + insets.right + self.button.inputOptions.count * CGRectGetWidth(keyRect) + margin * (self.button.inputOptions.count - 1);
+    CGFloat upperWidth = insets.left + insets.right + self.button.inputOptions.count * CGRectGetWidth(keyRect) + margin * (self.button.inputOptions.count - 1) - margin/2;
     CGFloat lowerWidth = CGRectGetWidth(_button.frame);
     CGFloat majorRadius = 10.f;
     CGFloat minorRadius = 4.f;
