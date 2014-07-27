@@ -2,7 +2,7 @@
 //  CYRKeyboardButtonView.m
 //  Example
 //
-//  Created by Guest User  on 7/19/14.
+//  Created by Illya Busigin  on 7/19/14.
 //  Copyright (c) 2014 Cyrillian, Inc. All rights reserved.
 //
 
