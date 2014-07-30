@@ -21,8 +21,6 @@
 		37EFED65197B44A600437A0F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37EFED47197B44A600437A0F /* UIKit.framework */; };
 		37EFED6D197B44A600437A0F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 37EFED6B197B44A600437A0F /* InfoPlist.strings */; };
 		37EFED6F197B44A600437A0F /* ExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 37EFED6E197B44A600437A0F /* ExampleTests.m */; };
-		37EFED7E197B44C700437A0F /* QEDKeyboardButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 37EFED7C197B44C700437A0F /* QEDKeyboardButton.m */; };
-		37EFED81197B451800437A0F /* QEDKeyboardOptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37EFED7F197B451800437A0F /* QEDKeyboardOptionsView.m */; };
 		37EFED87197B487E00437A0F /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 37EFED84197B487E00437A0F /* LICENSE */; };
 		37EFED88197B487E00437A0F /* TurtleBezierPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 37EFED86197B487E00437A0F /* TurtleBezierPath.m */; };
 		37EFED8B197B594000437A0F /* CYRKeyboardButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 37EFED8A197B594000437A0F /* CYRKeyboardButton.m */; };
@@ -59,10 +57,6 @@
 		37EFED6A197B44A600437A0F /* ExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ExampleTests-Info.plist"; sourceTree = "<group>"; };
 		37EFED6C197B44A600437A0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		37EFED6E197B44A600437A0F /* ExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExampleTests.m; sourceTree = "<group>"; };
-		37EFED7B197B44C700437A0F /* QEDKeyboardButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QEDKeyboardButton.h; sourceTree = "<group>"; };
-		37EFED7C197B44C700437A0F /* QEDKeyboardButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QEDKeyboardButton.m; sourceTree = "<group>"; };
-		37EFED7F197B451800437A0F /* QEDKeyboardOptionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QEDKeyboardOptionsView.m; sourceTree = "<group>"; };
-		37EFED80197B451800437A0F /* QEDKeyboardOptionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QEDKeyboardOptionsView.h; sourceTree = "<group>"; };
 		37EFED84197B487E00437A0F /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		37EFED85197B487E00437A0F /* TurtleBezierPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TurtleBezierPath.h; sourceTree = "<group>"; };
 		37EFED86197B487E00437A0F /* TurtleBezierPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TurtleBezierPath.m; sourceTree = "<group>"; };
@@ -182,10 +176,6 @@
 		37EFED78197B44C700437A0F /* CYRKeyboardButton */ = {
 			isa = PBXGroup;
 			children = (
-				37EFED7B197B44C700437A0F /* QEDKeyboardButton.h */,
-				37EFED7C197B44C700437A0F /* QEDKeyboardButton.m */,
-				37EFED80197B451800437A0F /* QEDKeyboardOptionsView.h */,
-				37EFED7F197B451800437A0F /* QEDKeyboardOptionsView.m */,
 				37EFED89197B594000437A0F /* CYRKeyboardButton.h */,
 				37EFED8A197B594000437A0F /* CYRKeyboardButton.m */,
 				37EFED8D197B596000437A0F /* CYRKeyboardButtonView.h */,
@@ -312,12 +302,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				37EFED8F197B596000437A0F /* CYRKeyboardButtonView.m in Sources */,
-				37EFED81197B451800437A0F /* QEDKeyboardOptionsView.m in Sources */,
 				37EFED88197B487E00437A0F /* TurtleBezierPath.m in Sources */,
 				37EFED5A197B44A600437A0F /* ViewController.m in Sources */,
 				37EFED54197B44A600437A0F /* AppDelegate.m in Sources */,
 				37EFED50197B44A600437A0F /* main.m in Sources */,
-				37EFED7E197B44C700437A0F /* QEDKeyboardButton.m in Sources */,
 				37EFED8B197B594000437A0F /* CYRKeyboardButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

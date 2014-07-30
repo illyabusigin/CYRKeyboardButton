@@ -129,7 +129,8 @@
         //// Rounded Rectangle Drawing
         CGContextSaveGState(context);
         CGContextSetShadowWithColor(context, shadowOffset, shadowBlurRadius, shadow.CGColor);
-        [[UIColor whiteColor] setFill];
+        NSLog(@"keyColor = %@", self.button.keyColor);
+        [self.button.keyColor setFill];
         [bezierPath fill];
         CGContextRestoreGState(context);
     }
@@ -209,7 +210,7 @@
         //// Rounded Rectangle Drawing
         CGContextSaveGState(context);
         CGContextSetShadowWithColor(context, shadowOffset, shadowBlurRadius, shadow.CGColor);
-        [[UIColor whiteColor] setFill];
+        [self.button.keyColor setFill];
         [bezierPath fill];
         CGContextRestoreGState(context);
     }
@@ -260,8 +261,8 @@
         
         // Draw the text
         UIColor *stringColor = (selected ? [UIColor whiteColor] : self.button.keyTextColor);
-        
-        CGSize stringSize = [optionString sizeWithAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:24.f]}];
+        NSLog(@"string color = %@", stringColor);
+        CGSize stringSize = [optionString sizeWithAttributes:@{NSFontAttributeName : self.button.inputOptionsFont}];
         CGRect stringRect = CGRectMake(
                                        CGRectGetMidX(optionRect) - stringSize.width / 2, CGRectGetMidY(optionRect) - stringSize.height / 2, stringSize.width, stringSize.height);
         
@@ -271,7 +272,7 @@
         NSAttributedString *attributedString = [[NSAttributedString alloc]
                                                 initWithString:optionString
                                                 attributes:
-                                                @{NSFontAttributeName : [UIFont systemFontOfSize:24.f], NSForegroundColorAttributeName : stringColor, NSParagraphStyleAttributeName : p}];
+                                                @{NSFontAttributeName : self.button.inputOptionsFont, NSForegroundColorAttributeName : stringColor, NSParagraphStyleAttributeName : p}];
         [attributedString drawInRect:stringRect];
     }];
     

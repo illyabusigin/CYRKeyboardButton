@@ -20,6 +20,8 @@ typedef NS_ENUM(NSUInteger, CYRKeyboardButtonStyle) {
     CYRKeyboardButtonStyleTablet
 };
 
+extern NSString *const CYRKeyboardButtonPressedNotification;
+
 @interface CYRKeyboardButton : UIControl
 
 @property (nonatomic, assign) CYRKeyboardButtonStyle style;

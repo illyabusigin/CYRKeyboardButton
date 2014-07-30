@@ -9,6 +9,8 @@
 #import "CYRKeyboardButton.h"
 #import "CYRKeyboardButtonView.h"
 
+NSString *const CYRKeyboardButtonPressedNotification = @"CYRKeyboardButtonPressedNotification";
+
 @interface CYRKeyboardButton () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UILabel *inputLabel;
@@ -22,27 +24,12 @@
 @property (nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
 
 // Internal style
-@property (nonatomic, strong) UIColor *highlightedKeyColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *keyHighlightedColor UI_APPEARANCE_SELECTOR;
 @property (nonatomic, assign) CGFloat keyCornerRadius UI_APPEARANCE_SELECTOR;
 
 @end
 
 @implementation CYRKeyboardButton
-
-#pragma mark - NSObject
-
-+ (void)initialize
-{
-    if (self == [CYRKeyboardButton class]) {
-        CYRKeyboardButton *keyboardButtonAppearance = [CYRKeyboardButton appearance];
-        [keyboardButtonAppearance setFont:[UIFont fontWithName:@"STHeitiSC-Light" size:24]];
-        [keyboardButtonAppearance setInputOptionsFont:[UIFont systemFontOfSize:24.f]];
-        [keyboardButtonAppearance setKeyColor:[UIColor whiteColor]];
-        [keyboardButtonAppearance setKeyTextColor:[UIColor blackColor]];
-        [keyboardButtonAppearance setKeyShadowColor:[UIColor colorWithRed:136 / 255.f green:138 / 255.f blue:142 / 255.f alpha:1]];
-        [keyboardButtonAppearance setHighlightedKeyColor:[UIColor colorWithRed:213/255.f green:214/255.f blue:216/255.f alpha:1]];
-    }
-}
 
 #pragma mark - UIView
 
@@ -50,7 +37,6 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
         switch ([UIDevice currentDevice].userInterfaceIdiom) {
             case UIUserInterfaceIdiomPhone:
                 _style = CYRKeyboardButtonStylePhone;
@@ -64,27 +50,35 @@
                 break;
         }
         
+        // Default appearance
+        _font = [UIFont systemFontOfSize:22.f];
+        _inputOptionsFont = [UIFont systemFontOfSize:24.f];
+        _keyColor = [UIColor whiteColor];
+        _keyTextColor = [UIColor blackColor];
+        _keyShadowColor = [UIColor colorWithRed:136 / 255.f green:138 / 255.f blue:142 / 255.f alpha:1];
+        _keyHighlightedColor = [UIColor colorWithRed:213/255.f green:214/255.f blue:216/255.f alpha:1];
+        
         // Styling
         self.backgroundColor = [UIColor clearColor];
         self.clipsToBounds = NO;
         self.layer.masksToBounds = NO;
-        
         self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
         
+        // State handling
+        [self addTarget:self action:@selector(handleTouchDown) forControlEvents:UIControlEventTouchDown];
+        [self addTarget:self action:@selector(handleTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+    
+        // Input label
         UILabel *inputLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame))];
         inputLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         inputLabel.textAlignment = NSTextAlignmentCenter;
         inputLabel.backgroundColor = [UIColor clearColor];
         inputLabel.userInteractionEnabled = NO;
-        inputLabel.textColor = [[[self class] appearance] keyTextColor];
-        inputLabel.font = [[[self class] appearance] font];
+        inputLabel.textColor = _keyTextColor;
+        inputLabel.font = _font;
         
         [self addSubview:inputLabel];
         _inputLabel = inputLabel;
-        
-        // State handling
-        [self addTarget:self action:@selector(_handleTouchDown) forControlEvents:UIControlEventTouchDown];
-        [self addTarget:self action:@selector(_handleTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
         
         [self updateDisplayStyle];
     }
@@ -139,6 +133,28 @@
     [self updateDisplayStyle];
 }
 
+- (void)setKeyTextColor:(UIColor *)keyTextColor
+{
+    if (_keyTextColor != keyTextColor) {
+        [self willChangeValueForKey:NSStringFromSelector(@selector(keyTextColor))];
+        _keyTextColor = keyTextColor;
+        [self didChangeValueForKey:NSStringFromSelector(@selector(keyTextColor))];
+        
+        _inputLabel.textColor = keyTextColor;
+    }
+}
+
+- (void)setFont:(UIFont *)font
+{
+    if (_font != font) {
+        [self willChangeValueForKey:NSStringFromSelector(@selector(font))];
+        _font = font;
+        [self didChangeValueForKey:NSStringFromSelector(@selector(font))];
+        
+        _inputLabel.font = font;
+    }
+}
+
 #pragma mark - Internal Actions
 
 - (void)showInputView
@@ -168,7 +184,7 @@
         }
     } else if (recognizer.state == UIGestureRecognizerStateCancelled || recognizer.state == UIGestureRecognizerStateEnded) {
         if (self.panGestureRecognizer.state != UIGestureRecognizerStateRecognized) {
-            [self _handleTouchUpInside];
+            [self handleTouchUpInside];
         }
     }
 }
@@ -252,14 +268,14 @@
 
 #pragma mark - Touch Actions
 
-- (void)_handleTouchDown
+- (void)handleTouchDown
 {
     [[UIDevice currentDevice] playInputClick];
     
     [self showInputView];
 }
 
-- (void)_handleTouchUpInside
+- (void)handleTouchUpInside
 {
     [self.textInput insertText:self.input];
     
@@ -307,7 +323,7 @@
     UIColor *color = self.keyColor;
     
     if (_style == CYRKeyboardButtonStyleTablet && self.state == UIControlStateHighlighted) {
-        color = self.highlightedKeyColor;
+        color = self.keyHighlightedColor;
     }
     
     UIColor *shadow = self.keyShadowColor;

@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "QEDKeyboardButton.h"
 #import "CYRKeyboardButton.h"
 
 @interface ViewController ()
@@ -25,7 +24,7 @@
     
     NSArray *keys = @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"0"];
     
-    UIInputView *numberView = [[UIInputView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 80) inputViewStyle:UIInputViewStyleKeyboard];
+    UIInputView *numberView = [[UIInputView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 45) inputViewStyle:UIInputViewStyleKeyboard];
     
 //    QEDKeyboardButton *aButton = [[QEDKeyboardButton alloc] initWithFrame:CGRectMake(95, 25, 60, 60) input:@"Q" inputOptions:@[@"A", @"B", @"C"]];
 //    aButton.textInput = self.textField;
@@ -46,7 +45,7 @@
     newKeyboardButton.textInput = self.textField;
     [numberView addSubview:newKeyboardButton];
     
-    CYRKeyboardButton *newKeyboardButton2 = [[CYRKeyboardButton alloc] initWithFrame:CGRectMake(200, 5, 26, 40)];
+    CYRKeyboardButton *newKeyboardButton2 = [[CYRKeyboardButton alloc] initWithFrame:CGRectMake(100, 5, 26, 40)];
     newKeyboardButton2.input = @"S";
     newKeyboardButton2.inputOptions = @[@"s", @"ß", @"ś", @"š"];
     newKeyboardButton2.textInput = self.textField;
