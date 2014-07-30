@@ -129,7 +129,6 @@
         //// Rounded Rectangle Drawing
         CGContextSaveGState(context);
         CGContextSetShadowWithColor(context, shadowOffset, shadowBlurRadius, shadow.CGColor);
-        NSLog(@"keyColor = %@", self.button.keyColor);
         [self.button.keyColor setFill];
         [bezierPath fill];
         CGContextRestoreGState(context);
@@ -261,7 +260,6 @@
         
         // Draw the text
         UIColor *stringColor = (selected ? [UIColor whiteColor] : self.button.keyTextColor);
-        NSLog(@"string color = %@", stringColor);
         CGSize stringSize = [optionString sizeWithAttributes:@{NSFontAttributeName : self.button.inputOptionsFont}];
         CGRect stringRect = CGRectMake(
                                        CGRectGetMidX(optionRect) - stringSize.width / 2, CGRectGetMidY(optionRect) - stringSize.height / 2, stringSize.width, stringSize.height);
