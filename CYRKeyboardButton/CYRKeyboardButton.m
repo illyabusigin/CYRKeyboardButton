@@ -91,6 +91,15 @@ NSString *const CYRKeyboardButtonPressedNotification = @"CYRKeyboardButtonPresse
     [self updateButtonPosition];
 }
 
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    [self setNeedsDisplay];
+    
+    [self updateButtonPosition];
+}
+
 #pragma mark - UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
@@ -101,6 +110,18 @@ NSString *const CYRKeyboardButtonPressedNotification = @"CYRKeyboardButtonPresse
 }
 
 #pragma mark - Overrides
+
+- (NSString *)description
+{
+    NSString *description = [NSString stringWithFormat:@"<%@ %p>; frame = %@; input = %@; inputOptions = %@",
+                             NSStringFromClass([self class]),
+                             self,
+                             NSStringFromCGRect(self.frame),
+                             self.input,
+                             self.inputOptions];
+    
+    return description;
+}
 
 - (void)setInput:(NSString *)input
 {
