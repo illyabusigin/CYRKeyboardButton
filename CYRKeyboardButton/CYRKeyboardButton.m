@@ -10,6 +10,7 @@
 #import "CYRKeyboardButtonView.h"
 
 NSString *const CYRKeyboardButtonPressedNotification = @"CYRKeyboardButtonPressedNotification";
+NSString *const CYRKeyboardButtonKeyPressedKey = @"CYRKeyboardButtonKeyPressedKey";
 
 @interface CYRKeyboardButton () <UIGestureRecognizerDelegate>
 
@@ -300,6 +301,9 @@ NSString *const CYRKeyboardButtonPressedNotification = @"CYRKeyboardButtonPresse
 {
     [self.textInput insertText:self.input];
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:CYRKeyboardButtonPressedNotification object:self
+                                                      userInfo:@{CYRKeyboardButtonKeyPressedKey : self.input}];
+    
     [self hideInputView];
     [self hideExpandedInputView];
 }
@@ -311,6 +315,9 @@ NSString *const CYRKeyboardButtonPressedNotification = @"CYRKeyboardButtonPresse
             NSString *inputOption = self.inputOptions[self.expandedButtonView.selectedInputIndex];
             
             [self.textInput insertText:inputOption];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:CYRKeyboardButtonPressedNotification object:self
+                                                              userInfo:@{CYRKeyboardButtonKeyPressedKey : inputOption}];
         }
         
         [self hideExpandedInputView];
