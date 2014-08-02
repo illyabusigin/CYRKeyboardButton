@@ -9,12 +9,12 @@
 #import "ViewController.h"
 #import "CYRKeyboardButton.h"
 
-@interface ViewController ()
+@interface ViewController () <UITextViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *keyboardButtons;
 @property (nonatomic, strong) UIInputView *numberView;
 
-@property (nonatomic, weak) IBOutlet UITextField *textField;
+@property (nonatomic, weak) IBOutlet UITextView *textView;
 
 @end
 
@@ -25,11 +25,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    
+
+    // Our keyboard keys
     NSArray *keys = @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"0"];
     self.keyboardButtons = [NSMutableArray arrayWithCapacity:keys.count];
-    
+
     self.numberView = [[UIInputView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 45) inputViewStyle:UIInputViewStyleKeyboard];
     
     [keys enumerateObjectsUsingBlock:^(NSString *keyString, NSUInteger idx, BOOL *stop) {
@@ -37,21 +37,36 @@
         keyboardButton.translatesAutoresizingMaskIntoConstraints = NO;
         keyboardButton.input = keyString;
         keyboardButton.inputOptions = @[@"A", @"B", @"C", @"D"];
-        keyboardButton.textInput = self.textField;
+        keyboardButton.textInput = self.textView;
         [self.numberView addSubview:keyboardButton];
         
         [self.keyboardButtons addObject:keyboardButton];
     }];
     
     [self updateConstraintsForOrientation:self.interfaceOrientation];
+    self.textView.inputAccessoryView = self.numberView;
     
-    self.textField.inputAccessoryView = self.numberView;
+    // Subscribe to keyboard notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
     
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [self updateConstraintsForOrientation:toInterfaceOrientation];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Constraint Management
@@ -110,6 +125,51 @@
             [self.numberView addConstraint:[NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:previousButton attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
         }
     }];
+}
+
+#pragma mark - UITextViewDelegate
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:textView action:@selector(resignFirstResponder)];
+    
+    [self.navigationItem setRightBarButtonItem:doneButton animated:YES];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    [self.navigationItem setRightBarButtonItem:nil animated:YES];
+}
+
+#pragma mark - UIKeyboard
+
+- (void)keyboardWillShow:(NSNotification *)notification
+{
+    if ([self.textView isFirstResponder]) {
+        NSDictionary *info = [notification userInfo];
+        CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+        CGFloat duration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+        
+        [UIView animateWithDuration:duration
+                         animations:^{
+                             self.textView.contentInset = UIEdgeInsetsMake(self.textView.contentInset.top, self.textView.contentInset.left, kbSize.height, 0);
+                             self.textView.scrollIndicatorInsets = UIEdgeInsetsMake(self.textView.contentInset.top, self.textView.scrollIndicatorInsets.left, kbSize.height, 0);
+                         }];
+    }
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification
+{
+    if ([self.textView isFirstResponder]) {
+        NSDictionary *info = [notification userInfo];
+        CGFloat duration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+        
+        [UIView animateWithDuration:duration
+                         animations:^{
+                             self.textView.contentInset = UIEdgeInsetsMake(self.textView.contentInset.top, self.textView.contentInset.left, 0, 0);
+                             self.textView.scrollIndicatorInsets = UIEdgeInsetsMake(self.textView.contentInset.top, self.textView.scrollIndicatorInsets.left, 0, 0);
+                         }];
+    }
 }
 
 @end

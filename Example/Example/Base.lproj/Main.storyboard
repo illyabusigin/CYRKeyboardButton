@@ -31,18 +31,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ndx-Or-a2Z">
-                                <rect key="frame" x="20" y="82" width="280" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4en-LJ-n6a">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <string key="text">CYRKeyboardButton is a near pixel perfect control that replicates apples keyboard button functionality. This control supports styling, UIAppearance, auto layout, and much more.
+
+This sample has a custom keyboard toolbar. Go ahead and give it a try! Thanks for trying CYRKeyboardButton!</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="yuS-qf-dEj"/>
+                                </connections>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="4en-LJ-n6a" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="1Nc-tk-5Ge"/>
+                            <constraint firstAttribute="bottom" secondItem="4en-LJ-n6a" secondAttribute="bottom" id="FEJ-Ci-Ssg"/>
+                            <constraint firstAttribute="trailing" secondItem="4en-LJ-n6a" secondAttribute="trailing" id="akN-wy-pcl"/>
+                            <constraint firstItem="4en-LJ-n6a" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="sA7-hx-oZO"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="0Sy-pm-cCc"/>
+                    <navigationItem key="navigationItem" title="CYRKeyboardButton" id="0Sy-pm-cCc"/>
                     <connections>
-                        <outlet property="textField" destination="Ndx-Or-a2Z" id="6ZB-xA-Q9P"/>
+                        <outlet property="textView" destination="4en-LJ-n6a" id="S9e-oI-x1f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
