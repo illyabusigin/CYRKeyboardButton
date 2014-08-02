@@ -1,5 +1,9 @@
 # CYRKeyboardButton
 
+[![Version](https://img.shields.io/cocoapods/v/CYRKeyboardButton.svg?style=flat)](https://github.com/illyabusigin/CYRKeyboardButton)
+[![License](https://img.shields.io/cocoapods/l/CYRKeyboardButton.svg?style=flat)](https://github.com/illyabusigin/CYRKeyboardButton)
+[![Platform](https://img.shields.io/cocoapods/p/CYRKeyboardButton.svg?style=flat)](https://github.com/illyabusigin/CYRKeyboardButton)
+
 by **Illya Busigin**
 
 - Visit my blog at [http://illyabusigin.com/](http://illyabusigin.com/)
