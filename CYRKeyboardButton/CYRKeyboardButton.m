@@ -25,7 +25,6 @@ NSString *const CYRKeyboardButtonKeyPressedKey = @"CYRKeyboardButtonKeyPressedKe
 @property (nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
 
 // Internal style
-@property (nonatomic, strong) UIColor *keyHighlightedColor UI_APPEARANCE_SELECTOR;
 @property (nonatomic, assign) CGFloat keyCornerRadius UI_APPEARANCE_SELECTOR;
 
 @end
@@ -175,6 +174,15 @@ NSString *const CYRKeyboardButtonKeyPressedKey = @"CYRKeyboardButtonKeyPressedKe
         
         _inputLabel.font = font;
     }
+}
+
+- (void)setTextInput:(id<UITextInput>)textInput
+{
+    NSAssert([textInput conformsToProtocol:@protocol(UITextInput)], @"<CYRKeyboardButton> The text input object must conform to the UITextInput protocol!");
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(textInput))];
+    _textInput = textInput;
+    [self didChangeValueForKey:NSStringFromSelector(@selector(textInput))];
 }
 
 #pragma mark - Internal Actions

@@ -15,31 +15,94 @@ typedef NS_ENUM(NSUInteger, CYRKeyboardButtonPosition) {
     CYRKeyboardButtonPositionCount
 };
 
+/**
+ The style of the keyboard button. You use these constants to set the value of the keyboard button style.
+ */
 typedef NS_ENUM(NSUInteger, CYRKeyboardButtonStyle) {
+    /** Keyboard buttons are styled like iPhone keyboard buttons. */
     CYRKeyboardButtonStylePhone,
+    /** Keyboard buttons are styled like iPad keyboard buttons. */
     CYRKeyboardButtonStyleTablet
 };
 
+/** 
+ Notifies observers that the keyboard button has been pressed. The affected button is stored in the object parameter of the notification. The userInfo dictionary contains the pressed key and can be accessed with the CYRKeyboardButtonKeyPressedKey key.
+ */
 extern NSString *const CYRKeyboardButtonPressedNotification;
+
+/**
+ The key used to fetch the pressed key string from the userInfo dictionary returned when CYRKeyboardButtonPressedNotification is fired.
+ */
 extern NSString *const CYRKeyboardButtonKeyPressedKey;
 
-
+/**
+ CYRKeyboardButton is a drop-in keyboard button that mimics the look, feel, and functionality of the native iOS keyboard buttons. This button is highly configurable via a variety of styling properties which conform to the UIAppearance protocol.
+ */
 @interface CYRKeyboardButton : UIControl
 
+/**
+ The style of the keyboard button. This determines the basic visual appearance of the keyboard.
+ @discussion The style value is automatically determined during initialization but can be overriden.
+ */
 @property (nonatomic, assign) CYRKeyboardButtonStyle style;
 
+
 // Styling
+
+/**
+ The font associated with the keyboard button.
+ @discussion This font only affects the keyboard button's standard view.
+ */
 @property (nonatomic, strong) UIFont *font UI_APPEARANCE_SELECTOR;
+
+/**
+ The font associated with the keyboard button input options.
+ */
 @property (nonatomic, strong) UIFont *inputOptionsFont UI_APPEARANCE_SELECTOR;
+
+/**
+ The default color of the keyboard button.
+ */
 @property (nonatomic, strong) UIColor *keyColor UI_APPEARANCE_SELECTOR;
+
+/**
+ The text color of the keyboard button.
+ @discussion This color affects both the standard and input option text.
+ */
 @property (nonatomic, strong) UIColor *keyTextColor UI_APPEARANCE_SELECTOR;
+
+/**
+ The shadow color for the keyboard button.
+ */
 @property (nonatomic, strong) UIColor *keyShadowColor UI_APPEARANCE_SELECTOR;
 
+/**
+ The highlighted background color of the keyboard button.
+ */
+@property (nonatomic, strong) UIColor *keyHighlightedColor UI_APPEARANCE_SELECTOR;
+
+/**
+ The position of the keyboard button. This is used to determine where to place the popover key views and is automatically determined when the keyboard button is added to a view and update during layout changes.
+ */
 @property (nonatomic, readonly) CYRKeyboardButtonPosition position;
 
-// Configurable
+// Configuration
+
+/**
+ The string input for the keyboard button. This is the string that would be inserted upon a successful key press.
+ */
 @property (nonatomic, strong) NSString *input;
+
+/**
+ An array of input option strings associated with the keybonard button. The user must tap and hold the keyboard button for 0.3 seconds before the input options will be displayed.
+ @discussion Input options are automatically positioned based on the keyboard buttons position within its' superview.
+ */
 @property (nonatomic, strong) NSArray *inputOptions;
+
+/**
+ An object that adopts the UITextInput protocol. When a key is pressed the key value is automatically inserted via the textInput object.
+ @discussion If the textInput object is not the first responder no text will be inserted.
+ */
 @property (nonatomic, weak) id<UITextInput> textInput;
 
 @end
