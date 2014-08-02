@@ -185,7 +185,7 @@ NSString *const CYRKeyboardButtonKeyPressedKey = @"CYRKeyboardButtonKeyPressedKe
     [self didChangeValueForKey:NSStringFromSelector(@selector(textInput))];
 }
 
-#pragma mark - Internal Actions
+#pragma mark - Internal - UI
 
 - (void)showInputView
 {
@@ -251,7 +251,53 @@ NSString *const CYRKeyboardButtonKeyPressedKey = @"CYRKeyboardButtonKeyPressedKe
     [self setNeedsDisplay];
 }
 
-#pragma mark - Internal Configuration
+#pragma mark - Internal - Text Handling
+
+- (void)insertText:(NSString *)text
+{
+    BOOL shouldInsertText = YES;
+    
+    if ([self.textInput isKindOfClass:[UITextView class]]) {
+        // Call UITextViewDelegate methods if necessary
+        UITextView *textView = (UITextView *)self.textInput;
+        NSRange selectedRange = textView.selectedRange;
+        
+        if ([textView.delegate respondsToSelector:@selector(textView:shouldChangeTextInRange:replacementText:)]) {
+            shouldInsertText = [textView.delegate textView:textView shouldChangeTextInRange:selectedRange replacementText:text];
+        }
+    } else if ([self.textInput isKindOfClass:[UITextField class]]) {
+        // Call UITextFieldDelgate methods if necessary
+        UITextField *textField = (UITextField *)self.textInput;
+        NSRange selectedRange = [self textInputSelectedRange];
+        
+        if ([textField.delegate respondsToSelector:@selector(textField:shouldChangeCharactersInRange:replacementString:)]) {
+            shouldInsertText = [textField.delegate textField:textField shouldChangeCharactersInRange:selectedRange replacementString:text];
+        }
+    }
+    
+    if (shouldInsertText == YES) {
+        [self.textInput insertText:text];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:CYRKeyboardButtonPressedNotification object:self
+                                                          userInfo:@{CYRKeyboardButtonKeyPressedKey : text}];
+    }
+}
+
+- (NSRange)textInputSelectedRange
+{
+    UITextPosition *beginning = self.textInput.beginningOfDocument;
+    
+	UITextRange *selectedRange = self.textInput.selectedTextRange;
+	UITextPosition *selectionStart = selectedRange.start;
+	UITextPosition *selectionEnd = selectedRange.end;
+    
+	const NSInteger location = [self.textInput offsetFromPosition:beginning toPosition:selectionStart];
+	const NSInteger length = [self.textInput offsetFromPosition:selectionStart toPosition:selectionEnd];
+    
+	return NSMakeRange(location, length);
+}
+
+#pragma mark - Internal - Configuration
 
 - (void)updateButtonPosition
 {
@@ -307,10 +353,7 @@ NSString *const CYRKeyboardButtonKeyPressedKey = @"CYRKeyboardButtonKeyPressedKe
 
 - (void)handleTouchUpInside
 {
-    [self.textInput insertText:self.input];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:CYRKeyboardButtonPressedNotification object:self
-                                                      userInfo:@{CYRKeyboardButtonKeyPressedKey : self.input}];
+    [self insertText:self.input];
     
     [self hideInputView];
     [self hideExpandedInputView];
@@ -322,10 +365,7 @@ NSString *const CYRKeyboardButtonKeyPressedKey = @"CYRKeyboardButtonKeyPressedKe
         if (self.expandedButtonView.selectedInputIndex != NSNotFound) {
             NSString *inputOption = self.inputOptions[self.expandedButtonView.selectedInputIndex];
             
-            [self.textInput insertText:inputOption];
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:CYRKeyboardButtonPressedNotification object:self
-                                                              userInfo:@{CYRKeyboardButtonKeyPressedKey : inputOption}];
+            [self insertText:inputOption];
         }
         
         [self hideExpandedInputView];
