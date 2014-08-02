@@ -43,7 +43,6 @@ keyboardButton.input = @"A";
 keyboardButton.inputOptions = @[@"A", @"B", @"C", @"D"];
 keyboardButton.textInput = self.textView;
 [self.view addSubview:keyboardButton];
-}];
 ```
 
 Example
