@@ -33,11 +33,23 @@ To use CYRKeyboardButton, just drag the class files into your project.. You can 
 
 If you are using Interface Builder, to set the custom properties of CYRKeyboardButton (ones that are not supported by regular UIViews) either create an IBOutlet for your view and set the properties in code, or use the User Defined Runtime Attributes feature in Interface Builder (introduced in Xcode 4.2 for iOS 5+).
 
+Usage
+---------------
+
+``` objective-c
+CYRKeyboardButton *keyboardButton = [CYRKeyboardButton new];
+keyboardButton.translatesAutoresizingMaskIntoConstraints = NO;
+keyboardButton.input = @"A";
+keyboardButton.inputOptions = @[@"A", @"B", @"C", @"D"];
+keyboardButton.textInput = self.textView;
+[self.view addSubview:keyboardButton];
+}];
+```
 
 Example
 ---------------
 
-CYRKeyboardButton includes an iPhone example project that demonstrates how to use CYRKeyboardButtons in an accessory view with nifty autolayout sizing/spacing.
+CYRKeyboardButton includes an iPhone example project that demonstrates how to use CYRKeyboardButtons in an input accessory view with nifty autolayout sizing/spacing.
 
 Bugs & Feature Requests
 ---------------
