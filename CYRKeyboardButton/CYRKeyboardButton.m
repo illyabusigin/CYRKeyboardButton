@@ -35,6 +35,8 @@
 #import "CYRKeyboardButtonView.h"
 
 NSString *const CYRKeyboardButtonPressedNotification = @"CYRKeyboardButtonPressedNotification";
+NSString *const CYRKeyboardButtonDidShowExpandedInputNotification = @"CYRKeyboardButtonDidShowExpandedInputNotification";
+NSString *const CYRKeyboardButtonDidHideExpandedInputNotification = @"CYRKeyboardButtonDidHideExpandedInputNotification";
 NSString *const CYRKeyboardButtonKeyPressedKey = @"CYRKeyboardButtonKeyPressedKey";
 
 @interface CYRKeyboardButton () <UIGestureRecognizerDelegate>
@@ -235,6 +237,8 @@ NSString *const CYRKeyboardButtonKeyPressedKey = @"CYRKeyboardButtonKeyPressedKe
             [self.window addSubview:expandedButtonView];
             self.expandedButtonView = expandedButtonView;
             
+            [[NSNotificationCenter defaultCenter] postNotificationName:CYRKeyboardButtonDidShowExpandedInputNotification object:self];
+            
             [self hideInputView];
         }
     } else if (recognizer.state == UIGestureRecognizerStateCancelled || recognizer.state == UIGestureRecognizerStateEnded) {
@@ -254,6 +258,10 @@ NSString *const CYRKeyboardButtonKeyPressedKey = @"CYRKeyboardButtonKeyPressedKe
 
 - (void)hideExpandedInputView
 {
+    if (self.expandedButtonView.type == CYRKeyboardButtonViewTypeExpanded) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:CYRKeyboardButtonDidHideExpandedInputNotification object:self];
+    }
+    
     [self.expandedButtonView removeFromSuperview];
     self.expandedButtonView = nil;
 }

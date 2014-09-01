@@ -55,6 +55,16 @@ typedef NS_ENUM(NSUInteger, CYRKeyboardButtonStyle) {
  */
 extern NSString *const CYRKeyboardButtonPressedNotification;
 
+/** 
+ Notifies observers that the keyboard button has show the expanded input view. The affected button is stored in the object parameter of the notification.
+ */
+extern NSString *const CYRKeyboardButtonDidShowExpandedInputNotification;
+
+/**
+ Notifies observers that the keyboard button has hidden the expanded input view. The affected button is stored in the object parameter of the notification.
+ */
+extern NSString *const CYRKeyboardButtonDidHideExpandedInputNotification;
+
 /**
  The key used to fetch the pressed key string from the userInfo dictionary returned when CYRKeyboardButtonPressedNotification is fired.
  */
