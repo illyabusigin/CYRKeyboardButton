@@ -64,53 +64,67 @@ NSString *const CYRKeyboardButtonKeyPressedKey = @"CYRKeyboardButtonKeyPressedKe
 {
     self = [super initWithFrame:frame];
     if (self) {
-        switch ([UIDevice currentDevice].userInterfaceIdiom) {
-            case UIUserInterfaceIdiomPhone:
-                _style = CYRKeyboardButtonStylePhone;
-                break;
-                
-            case UIUserInterfaceIdiomPad:
-                _style = CYRKeyboardButtonStyleTablet;
-                break;
-                
-            default:
-                break;
-        }
-        
-        // Default appearance
-        _font = [UIFont systemFontOfSize:22.f];
-        _inputOptionsFont = [UIFont systemFontOfSize:24.f];
-        _keyColor = [UIColor whiteColor];
-        _keyTextColor = [UIColor blackColor];
-        _keyShadowColor = [UIColor colorWithRed:136 / 255.f green:138 / 255.f blue:142 / 255.f alpha:1];
-        _keyHighlightedColor = [UIColor colorWithRed:213/255.f green:214/255.f blue:216/255.f alpha:1];
-        
-        // Styling
-        self.backgroundColor = [UIColor clearColor];
-        self.clipsToBounds = NO;
-        self.layer.masksToBounds = NO;
-        self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-        
-        // State handling
-        [self addTarget:self action:@selector(handleTouchDown) forControlEvents:UIControlEventTouchDown];
-        [self addTarget:self action:@selector(handleTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
-    
-        // Input label
-        UILabel *inputLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame))];
-        inputLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        inputLabel.textAlignment = NSTextAlignmentCenter;
-        inputLabel.backgroundColor = [UIColor clearColor];
-        inputLabel.userInteractionEnabled = NO;
-        inputLabel.textColor = _keyTextColor;
-        inputLabel.font = _font;
-        
-        [self addSubview:inputLabel];
-        _inputLabel = inputLabel;
-        
-        [self updateDisplayStyle];
+        [self setUp];
     }
     
     return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self setUp];
+    }
+    return self;
+}
+
+- (void)setUp
+{
+    switch ([UIDevice currentDevice].userInterfaceIdiom) {
+        case UIUserInterfaceIdiomPhone:
+            _style = CYRKeyboardButtonStylePhone;
+            break;
+            
+        case UIUserInterfaceIdiomPad:
+            _style = CYRKeyboardButtonStyleTablet;
+            break;
+            
+        default:
+            break;
+    }
+    
+    // Default appearance
+    _font = [UIFont systemFontOfSize:22.f];
+    _inputOptionsFont = [UIFont systemFontOfSize:24.f];
+    _keyColor = [UIColor whiteColor];
+    _keyTextColor = [UIColor blackColor];
+    _keyShadowColor = [UIColor colorWithRed:136 / 255.f green:138 / 255.f blue:142 / 255.f alpha:1];
+    _keyHighlightedColor = [UIColor colorWithRed:213/255.f green:214/255.f blue:216/255.f alpha:1];
+    
+    // Styling
+    self.backgroundColor = [UIColor clearColor];
+    self.clipsToBounds = NO;
+    self.layer.masksToBounds = NO;
+    self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    
+    // State handling
+    [self addTarget:self action:@selector(handleTouchDown) forControlEvents:UIControlEventTouchDown];
+    [self addTarget:self action:@selector(handleTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+    
+    // Input label
+    UILabel *inputLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame))];
+    inputLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    inputLabel.textAlignment = NSTextAlignmentCenter;
+    inputLabel.backgroundColor = [UIColor clearColor];
+    inputLabel.userInteractionEnabled = NO;
+    inputLabel.textColor = _keyTextColor;
+    inputLabel.font = _font;
+    
+    [self addSubview:inputLabel];
+    _inputLabel = inputLabel;
+    
+    [self updateDisplayStyle];
 }
 
 - (void)didMoveToSuperview
