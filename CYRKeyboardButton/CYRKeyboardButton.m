@@ -64,7 +64,7 @@ NSString *const CYRKeyboardButtonKeyPressedKey = @"CYRKeyboardButtonKeyPressedKe
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setUp];
+        [self commonInit];
     }
     
     return self;
@@ -74,12 +74,12 @@ NSString *const CYRKeyboardButtonKeyPressedKey = @"CYRKeyboardButtonKeyPressedKe
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        [self setUp];
+        [self commonInit];
     }
     return self;
 }
 
-- (void)setUp
+- (void)commonInit
 {
     switch ([UIDevice currentDevice].userInterfaceIdiom) {
         case UIUserInterfaceIdiomPhone:
