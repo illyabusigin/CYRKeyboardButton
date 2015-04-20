@@ -1,5 +1,8 @@
 #CYRKeyboardButton Changelog
 
+##0.5.3 (Monday, April 20th, 2015)
+ * Added support for initialization via interface builder (Thanks @khaullen!)
+
 ##0.5.2 (Sunday, August 31st, 2014)
  * Adding notifications for when the expanded input view is shown or hidden.
 
