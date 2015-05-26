@@ -73,6 +73,7 @@ extern NSString *const CYRKeyboardButtonKeyPressedKey;
 /**
  CYRKeyboardButton is a drop-in keyboard button that mimics the look, feel, and functionality of the native iOS keyboard buttons. This button is highly configurable via a variety of styling properties which conform to the UIAppearance protocol.
  */
+IB_DESIGNABLE
 @interface CYRKeyboardButton : UIControl
 
 /**
@@ -126,7 +127,7 @@ extern NSString *const CYRKeyboardButtonKeyPressedKey;
 /**
  The string input for the keyboard button. This is the string that would be inserted upon a successful key press.
  */
-@property (nonatomic, strong) NSString *input;
+@property (nonatomic, strong) IBInspectable NSString *input;
 
 /**
  An array of input option strings associated with the keybonard button. The user must tap and hold the keyboard button for 0.3 seconds before the input options will be displayed.

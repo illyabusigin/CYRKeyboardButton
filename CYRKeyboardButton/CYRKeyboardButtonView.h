@@ -40,6 +40,7 @@ typedef NS_ENUM(NSUInteger, CYRKeyboardButtonViewType) {
 
 @class CYRKeyboardButton;
 
+IB_DESIGNABLE
 @interface CYRKeyboardButtonView : UIView
 
 @property (nonatomic, readonly) CYRKeyboardButtonViewType type;
