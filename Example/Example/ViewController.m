@@ -96,7 +96,7 @@
     
     // Build the visual format string
     [self.keyboardButtons enumerateObjectsUsingBlock:^(CYRKeyboardButton *button, NSUInteger idx, BOOL *stop) {
-        NSString *binding = [NSString stringWithFormat:@"keyboardButton%i", idx];
+        NSString *binding = [NSString stringWithFormat:@"keyboardButton%lu", (unsigned long)idx];
         [bindings setObject:button forKey:binding];
         
         if (idx == 0) {
