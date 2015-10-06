@@ -54,7 +54,7 @@
     CGRect frame = [UIScreen mainScreen].bounds;
     
     if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
-        frame = CGRectMake(0, 0, CGRectGetHeight(frame), CGRectGetWidth(frame));
+        frame = CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame));
     }
     
     self = [super initWithFrame:frame];
